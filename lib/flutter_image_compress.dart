@@ -184,16 +184,16 @@ class FlutterImageCompress {
 Future<ImageInfo> getImageInfo(BuildContext context, ImageProvider provider,
     {Size size}) async {
   final ImageConfiguration config =
-      createLocalImageConfiguration(context, size: size);
+  createLocalImageConfiguration(context, size: size);
   final Completer<ImageInfo> completer = Completer<ImageInfo>();
   final ImageStream stream = provider.resolve(config);
   void listener(ImageInfo image, bool sync) {
     completer.complete(image);
   }
-  
-  stream.addListener(listener);
+
+  stream.addListener(new ImageStreamListener(listener));
   completer.future.then((ImageInfo info) {
-    stream.removeListener(listener);
+    stream.removeListener(new ImageStreamListener(listener));
   });
   return completer.future;
 }
