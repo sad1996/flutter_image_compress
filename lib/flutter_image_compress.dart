@@ -190,19 +190,8 @@ Future<ImageInfo> getImageInfo(BuildContext context, ImageProvider provider,
   void listener(ImageInfo image, bool sync) {
     completer.complete(image);
   }
-
-  void errorListener(dynamic exception, StackTrace stackTrace) {
-    completer.complete(null);
-    FlutterError.reportError(FlutterErrorDetails(
-      context: DiagnosticsNode.message('image load failed '),
-      library: 'flutter_image_compress',
-      exception: exception,
-      stack: stackTrace,
-      silent: true,
-    ));
-  }
-
-  stream.addListener(listener, onError: errorListener);
+  
+  stream.addListener(listener);
   completer.future.then((ImageInfo info) {
     stream.removeListener(listener);
   });
